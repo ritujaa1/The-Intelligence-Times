@@ -1,6 +1,14 @@
-# 🕵️ Competitive Intelligence — Agentic RAG
+# 🗞️ The Intelligence Times — Agentic RAG Competitive Intelligence
 
-Four specialist AI agents (Research, Technology, Market, Threat) analyze any company by querying a **Pinecone** vector database with **hybrid retrieval** (semantic + BM25 + Reciprocal Rank Fusion), re-ranking evidence with **Groq LLM-as-judge**, cross-checking each other for conflicts, and producing a fully **source-attributed intelligence brief** with built-in hallucination metrics.
+**Live app: [theintelligencetimes.streamlit.app](https://theintelligencetimes.streamlit.app)** — try `?company=OpenAI` for a shareable, auto-printed edition.
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://theintelligencetimes.streamlit.app)
+
+Four specialist AI agents (Research, Technology, Market, Threat) analyze any company by querying a **Pinecone** vector database with **hybrid retrieval** (semantic + BM25 + Reciprocal Rank Fusion), re-ranking evidence with **Groq LLM-as-judge**, cross-checking each other for conflicts, and producing a fully **source-attributed intelligence brief** with built-in hallucination metrics — typeset as a broadsheet front page in the Economic Times' salmon newsprint.
+
+![The Intelligence Times front page](docs/img/front-page.png)
+
+![A printed intelligence brief](docs/img/brief.png)
 
 **Total cost: $0.** Groq free tier (LLM), Pinecone free tier (vectors + hosted embeddings), free data APIs. No PyTorch, no local models — your laptop only holds ~5MB of code.
 
@@ -58,7 +66,21 @@ For **live data** instead of the sample corpus, add free keys for `NEWSAPI_KEY` 
 | `src/retrieval.py` | Hybrid search: semantic + BM25 → Reciprocal Rank Fusion → LLM-as-judge re-rank |
 | `src/agents.py` | 4 specialist agents (query generation → retrieval → grounded cited writing), conflict cross-check, synthesis |
 | `src/report.py` | CLI entrypoint, rendering, groundedness metrics (citation coverage + number fidelity) |
-| `app/streamlit_app.py` | **The Intelligence Times** — newspaper-style web app (Economic Times salmon newsprint): masthead, lead story with drop cap, four desk sections with cited evidence, cross-examination box, and a metrics ticker. Can also ingest fresh live data for any company directly from the UI |
+| `app/streamlit_app.py` | **The Intelligence Times** web app: commissioning desk, live ingestion, and the printed edition. Accepts `?company=Name` for shareable auto-printed briefs |
+| `app/newsprint.py` | Typesetting layer — the newsprint stylesheet and pure functions that lay a brief out as a broadsheet. No Streamlit import, so saved briefs render anywhere |
+| `src/export_html.py` | Renders a saved brief to a standalone HTML page (no API calls) — share an edition, archive a back issue, or print to PDF |
+
+## Reading the paper
+
+```bash
+# a shareable edition (auto-prints on load)
+https://theintelligencetimes.streamlit.app/?company=OpenAI
+
+# export a saved brief as a standalone page
+python -m src.export_html --company "OpenAI"
+```
+
+Company names become Pinecone namespaces, so spelling is identity: `OpenAI` and `Open AI` are two different archives.
 
 ## Quality metrics (built-in)
 

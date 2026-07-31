@@ -3,3 +3,7 @@
 __pycache__/
 results/
 .claude/
+results/*.html
+docs/img/debug.png
+.DS_Store
+docs/img/brief.html
