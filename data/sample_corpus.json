@@ -1,0 +1,170 @@
+{
+ "OpenAI": [
+  {
+   "category": "news",
+   "title": "OpenAI raises new funding round",
+   "source": "synthetic-news-1",
+   "text": "OpenAI announced a $300M funding round led by Thrive Capital, bringing total capital raised to $13000M. The company said proceeds will fund expansion of its GPT API platform and hiring across engineering. Analysts note valuation is now roughly $90B, a 45% increase year over year."
+  },
+  {
+   "category": "news",
+   "title": "OpenAI launches GPT API platform update",
+   "source": "synthetic-news-2",
+   "text": "OpenAI shipped a major update to its GPT API platform, adding structured outputs and multimodal input. Early customers report 32% improvements in throughput. The launch positions OpenAI against rivals such as Anthropic in the race for enterprise adoption."
+  },
+  {
+   "category": "news",
+   "title": "OpenAI partnership announcement",
+   "source": "synthetic-news-3",
+   "text": "OpenAI entered a strategic partnership with Microsoft to integrate its GPT API platform into enterprise workflows, targeting enterprise AI customers. The deal includes co-selling arrangements across US and EU regions."
+  },
+  {
+   "category": "tech",
+   "title": "OpenAI engineering blog: architecture deep dive",
+   "source": "synthetic-tech-1",
+   "text": "OpenAI's stack centers on custom CUDA kernels with a Python orchestration layer. The team optimized inference with speculative decoding, cutting serving costs by 38%. Open-source contributions include tiktoken and evals, which has 25K GitHub stars. Model training runs on clusters of 10000 GPUs."
+  },
+  {
+   "category": "tech",
+   "title": "OpenAI research output",
+   "source": "synthetic-tech-2",
+   "text": "Researchers at OpenAI published 18 papers this year, focusing on reasoning and alignment. Benchmarks show their flagship model reaching 88% on standard evaluations, up from 82% last year."
+  },
+  {
+   "category": "market",
+   "title": "OpenAI pricing and positioning analysis",
+   "source": "synthetic-market-1",
+   "text": "OpenAI prices its GPT API platform at $15 per million tokens, above several competitors. Market share is estimated at 41% of the enterprise AI segment, with 92K active customer accounts. Revenue run-rate is approximately $1600M annually."
+  },
+  {
+   "category": "market",
+   "title": "OpenAI customer segments",
+   "source": "synthetic-market-2",
+   "text": "Primary customers of OpenAI are enterprise AI teams; churn is reported near 8% annually. Net revenue retention stands at 128%. Sales motion is product-led with enterprise overlay, with average contract value around $120K."
+  },
+  {
+   "category": "threat",
+   "title": "Risks facing OpenAI",
+   "source": "synthetic-threat-1",
+   "text": "Key risks for OpenAI include pricing pressure from open-source alternatives, dependence on Azure compute, and regulatory scrutiny in US and EU markets. Rival Anthropic is closing the capability gap, and rate limiting at peak load remains a noted weakness in customer reviews."
+  },
+  {
+   "category": "threat",
+   "title": "Competitive threats to OpenAI",
+   "source": "synthetic-threat-2",
+   "text": "Analysts flag that Anthropic grew 62% last quarter while OpenAI grew 38%. Talent attrition at OpenAI was 11% and infrastructure costs are rising. A price war in the enterprise AI segment could compress margins by up to 9 points."
+  }
+ ],
+ "Anthropic": [
+  {
+   "category": "news",
+   "title": "Anthropic raises new funding round",
+   "source": "synthetic-news-1",
+   "text": "Anthropic announced a $450M funding round led by Google, bringing total capital raised to $7000M. The company said proceeds will fund expansion of its Claude API and hiring across engineering. Analysts note valuation is now roughly $40B, a 60% increase year over year."
+  },
+  {
+   "category": "news",
+   "title": "Anthropic launches Claude API update",
+   "source": "synthetic-news-2",
+   "text": "Anthropic shipped a major update to its Claude API, adding extended context windows and computer use. Early customers report 41% improvements in throughput. The launch positions Anthropic against rivals such as OpenAI in the race for enterprise adoption."
+  },
+  {
+   "category": "news",
+   "title": "Anthropic partnership announcement",
+   "source": "synthetic-news-3",
+   "text": "Anthropic entered a strategic partnership with AWS to integrate its Claude API into enterprise workflows, targeting enterprise AI customers. The deal includes co-selling arrangements across US and EU regions."
+  },
+  {
+   "category": "tech",
+   "title": "Anthropic engineering blog: architecture deep dive",
+   "source": "synthetic-tech-1",
+   "text": "Anthropic's stack centers on Rust serving infrastructure with JAX training. The team optimized inference with prompt caching, cutting serving costs by 45%. Open-source contributions include model context protocol, which has 18K GitHub stars. Model training runs on clusters of 8000 GPUs."
+  },
+  {
+   "category": "tech",
+   "title": "Anthropic research output",
+   "source": "synthetic-tech-2",
+   "text": "Researchers at Anthropic published 22 papers this year, focusing on interpretability and safety. Benchmarks show their flagship model reaching 89% on standard evaluations, up from 80% last year."
+  },
+  {
+   "category": "market",
+   "title": "Anthropic pricing and positioning analysis",
+   "source": "synthetic-market-1",
+   "text": "Anthropic prices its Claude API at $12 per million tokens, above several competitors. Market share is estimated at 24% of the enterprise AI segment, with 48K active customer accounts. Revenue run-rate is approximately $850M annually."
+  },
+  {
+   "category": "market",
+   "title": "Anthropic customer segments",
+   "source": "synthetic-market-2",
+   "text": "Primary customers of Anthropic are enterprise AI teams; churn is reported near 6% annually. Net revenue retention stands at 140%. Sales motion is enterprise sales-led, with average contract value around $180K."
+  },
+  {
+   "category": "threat",
+   "title": "Risks facing Anthropic",
+   "source": "synthetic-threat-1",
+   "text": "Key risks for Anthropic include pricing pressure from open-source alternatives, dependence on cloud partners for compute, and regulatory scrutiny in US and EU markets. Rival OpenAI is closing the capability gap, and smaller developer ecosystem remains a noted weakness in customer reviews."
+  },
+  {
+   "category": "threat",
+   "title": "Competitive threats to Anthropic",
+   "source": "synthetic-threat-2",
+   "text": "Analysts flag that OpenAI grew 38% last quarter while Anthropic grew 62%. Talent attrition at Anthropic was 7% and infrastructure costs are rising. A price war in the enterprise AI segment could compress margins by up to 7 points."
+  }
+ ],
+ "Mistral AI": [
+  {
+   "category": "news",
+   "title": "Mistral AI raises new funding round",
+   "source": "synthetic-news-1",
+   "text": "Mistral AI announced a $600M funding round led by General Catalyst, bringing total capital raised to $1200M. The company said proceeds will fund expansion of its open-weight model platform and hiring across engineering. Analysts note valuation is now roughly $6B, a 90% increase year over year."
+  },
+  {
+   "category": "news",
+   "title": "Mistral AI launches open-weight model platform update",
+   "source": "synthetic-news-2",
+   "text": "Mistral AI shipped a major update to its open-weight model platform, adding mixture-of-experts efficiency gains. Early customers report 27% improvements in throughput. The launch positions Mistral AI against rivals such as Meta AI in the race for enterprise adoption."
+  },
+  {
+   "category": "news",
+   "title": "Mistral AI partnership announcement",
+   "source": "synthetic-news-3",
+   "text": "Mistral AI entered a strategic partnership with Microsoft to integrate its open-weight model platform into enterprise workflows, targeting developer platform customers. The deal includes co-selling arrangements across EU regions."
+  },
+  {
+   "category": "tech",
+   "title": "Mistral AI engineering blog: architecture deep dive",
+   "source": "synthetic-tech-1",
+   "text": "Mistral AI's stack centers on PyTorch with vLLM-based serving. The team optimized inference with MoE sparse routing, cutting serving costs by 52%. Open-source contributions include Mistral 7B and Mixtral weights, which has 30K GitHub stars. Model training runs on clusters of 3000 GPUs."
+  },
+  {
+   "category": "tech",
+   "title": "Mistral AI research output",
+   "source": "synthetic-tech-2",
+   "text": "Researchers at Mistral AI published 9 papers this year, focusing on efficient architectures. Benchmarks show their flagship model reaching 81% on standard evaluations, up from 72% last year."
+  },
+  {
+   "category": "market",
+   "title": "Mistral AI pricing and positioning analysis",
+   "source": "synthetic-market-1",
+   "text": "Mistral AI prices its open-weight model platform at $4 per million tokens, undercutting several competitors. Market share is estimated at 9% of the developer platform segment, with 35K active customer accounts. Revenue run-rate is approximately $120M annually."
+  },
+  {
+   "category": "market",
+   "title": "Mistral AI customer segments",
+   "source": "synthetic-market-2",
+   "text": "Primary customers of Mistral AI are developer platform teams; churn is reported near 12% annually. Net revenue retention stands at 115%. Sales motion is open-source-led with paid API, with average contract value around $40K."
+  },
+  {
+   "category": "threat",
+   "title": "Risks facing Mistral AI",
+   "source": "synthetic-threat-1",
+   "text": "Key risks for Mistral AI include pricing pressure from open-source alternatives, dependence on European compute grants, and regulatory scrutiny in EU markets. Rival Meta AI is closing the capability gap, and limited enterprise support tooling remains a noted weakness in customer reviews."
+  },
+  {
+   "category": "threat",
+   "title": "Competitive threats to Mistral AI",
+   "source": "synthetic-threat-2",
+   "text": "Analysts flag that Meta AI grew 44% last quarter while Mistral AI grew 90%. Talent attrition at Mistral AI was 9% and infrastructure costs are rising. A price war in the developer platform segment could compress margins by up to 12 points."
+  }
+ ]
+}

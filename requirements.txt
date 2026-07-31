@@ -1,0 +1,6 @@
+groq>=0.13.0
+pinecone>=5.0.0
+rank_bm25>=0.2.2
+requests>=2.31.0
+python-dotenv>=1.0.0
+streamlit>=1.32.0
