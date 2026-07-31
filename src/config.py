@@ -14,11 +14,27 @@ DATA_DIR = PROJECT_ROOT / "data"
 RESULTS_DIR = PROJECT_ROOT / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
+def _secret(name: str) -> str:
+    """Env var first (local .env); fall back to Streamlit secrets (cloud).
+
+    Streamlit Cloud only mirrors secrets into os.environ once st.secrets is
+    accessed, so a plain os.getenv would miss them.
+    """
+    val = os.getenv(name, "")
+    if val:
+        return val
+    try:
+        import streamlit as st
+        return str(st.secrets.get(name, ""))
+    except Exception:
+        return ""
+
+
 # --- Keys (all free tiers) ---
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "")
-NEWSAPI_KEY = os.getenv("NEWSAPI_KEY", "")          # optional
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")        # optional
+GROQ_API_KEY = _secret("GROQ_API_KEY")
+PINECONE_API_KEY = _secret("PINECONE_API_KEY")
+NEWSAPI_KEY = _secret("NEWSAPI_KEY")          # optional
+GITHUB_TOKEN = _secret("GITHUB_TOKEN")        # optional
 
 # --- Models ---
 # Groq free tier. If this model is deprecated, list current ones with:
