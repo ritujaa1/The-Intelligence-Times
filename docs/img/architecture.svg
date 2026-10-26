@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 912" width="1200" height="912" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a3a3a"/>
+    </marker>
+    <style>
+      .t  { font-size: 15px; font-weight: 700; fill: #1a1a1a; }
+      .s  { font-size: 12.5px; fill: #4a4a4a; }
+      .h  { font-size: 13px; font-weight: 800; letter-spacing: .12em; fill: #b3261e; }
+      .box   { fill: #ffffff; stroke: #1a1a1a; stroke-width: 1.3; }
+      .llm   { fill: #fbecea; stroke: #b3261e; stroke-width: 1.5; }
+      .store { fill: #edf2f7; stroke: #2f4a68; stroke-width: 1.5; }
+      .src   { fill: #ffffff; stroke: #8a8a8a; stroke-width: 1.1; }
+      .band  { fill: #fbf8f2; stroke: #d9d2c3; stroke-width: 1; }
+      .ln    { stroke: #3a3a3a; stroke-width: 1.6; fill: none; }
+      .dash  { stroke: #2f4a68; stroke-width: 1.5; fill: none; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="912" fill="#ffffff"/>
+  <text x="40" y="44" style="font-size:24px;font-weight:800;fill:#1a1a1a;font-family:Georgia,'Times New Roman',serif">The Intelligence Times — architecture</text>
+  <text x="40" y="68" class="s">Agentic RAG for competitive intelligence: 4 specialist agents, hybrid retrieval, LLM-as-judge re-ranking, grounded and cited output</text>
+
+  <!-- ============ 1. INGEST ============ -->
+  <rect x="20" y="88" width="1160" height="262" rx="10" class="band"/>
+  <text x="40" y="114" class="h">1 · INGEST</text>
+
+  <rect x="40" y="128" width="220" height="36" rx="6" class="src"/>
+  <text x="54" y="151" class="t" style="font-size:13.5px">Google News RSS</text>
+  <text x="180" y="151" class="s" style="font-size:11px">last 7 days</text>
+  <rect x="40" y="171" width="220" height="36" rx="6" class="src"/>
+  <text x="54" y="194" class="t" style="font-size:13.5px">GitHub API</text>
+  <text x="152" y="194" class="s" style="font-size:11px">org repositories</text>
+  <rect x="40" y="214" width="220" height="36" rx="6" class="src"/>
+  <text x="54" y="237" class="t" style="font-size:13.5px">arXiv API</text>
+  <text x="140" y="237" class="s" style="font-size:11px">research papers</text>
+  <rect x="40" y="257" width="220" height="36" rx="6" class="src" stroke-dasharray="4 3"/>
+  <text x="54" y="280" class="t" style="font-size:13.5px">NewsAPI</text>
+  <text x="130" y="280" class="s" style="font-size:11px">optional key</text>
+  <rect x="40" y="300" width="220" height="36" rx="6" class="src" stroke-dasharray="4 3"/>
+  <text x="54" y="323" class="t" style="font-size:13.5px">Sample corpus</text>
+  <text x="166" y="323" class="s" style="font-size:11px">offline demo</text>
+
+  <path d="M260,232 L318,232" class="ln" marker-end="url(#arr)"/>
+  <rect x="322" y="192" width="200" height="80" rx="8" class="box"/>
+  <text x="422" y="226" text-anchor="middle" class="t">Chunk</text>
+  <text x="422" y="248" text-anchor="middle" class="s">180 words · 40 overlap</text>
+
+  <path d="M522,232 L580,232" class="ln" marker-end="url(#arr)"/>
+  <rect x="584" y="192" width="230" height="80" rx="8" class="box"/>
+  <text x="699" y="222" text-anchor="middle" class="t">Embed</text>
+  <text x="699" y="243" text-anchor="middle" class="s">multilingual-e5-large · 1024-d</text>
+  <text x="699" y="261" text-anchor="middle" class="s">Pinecone hosted inference</text>
+
+  <path d="M814,214 L878,170" class="ln" marker-end="url(#arr)"/>
+  <path d="M814,250 L878,292" class="ln" marker-end="url(#arr)"/>
+  <rect x="882" y="128" width="278" height="84" rx="8" class="store"/>
+  <text x="1021" y="160" text-anchor="middle" class="t">Pinecone serverless index</text>
+  <text x="1021" y="181" text-anchor="middle" class="s">dense vectors · one namespace</text>
+  <text x="1021" y="198" text-anchor="middle" class="s">per company · category metadata</text>
+  <rect x="882" y="250" width="278" height="84" rx="8" class="store"/>
+  <text x="1021" y="282" text-anchor="middle" class="t">BM25 chunk store</text>
+  <text x="1021" y="303" text-anchor="middle" class="s">same chunks as JSON for</text>
+  <text x="1021" y="320" text-anchor="middle" class="s">local keyword search</text>
+
+  <!-- ============ 2. ANALYZE ============ -->
+  <rect x="20" y="366" width="1160" height="330" rx="10" class="band"/>
+  <text x="40" y="392" class="h">2 · ANALYZE — FOUR SPECIALIST AGENTS</text>
+
+  <rect x="430" y="404" width="340" height="46" rx="23" class="box"/>
+  <text x="600" y="425" text-anchor="middle" class="t" style="font-size:14px">Commission a brief: company name</text>
+  <text x="600" y="442" text-anchor="middle" class="s" style="font-size:11.5px">Streamlit app or CLI</text>
+
+  <path d="M520,450 L162,480" class="ln" marker-end="url(#arr)"/>
+  <path d="M570,450 L442,480" class="ln" marker-end="url(#arr)"/>
+  <path d="M630,450 L758,480" class="ln" marker-end="url(#arr)"/>
+  <path d="M680,450 L1038,480" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="40"  y="484" width="250" height="62" rx="8" class="box"/>
+  <text x="165" y="510" text-anchor="middle" class="t">Research Agent</text>
+  <text x="165" y="530" text-anchor="middle" class="s">news · funding · launches</text>
+  <rect x="320" y="484" width="250" height="62" rx="8" class="box"/>
+  <text x="445" y="510" text-anchor="middle" class="t">Technology Agent</text>
+  <text x="445" y="530" text-anchor="middle" class="s">stack · open source · papers</text>
+  <rect x="600" y="484" width="250" height="62" rx="8" class="box"/>
+  <text x="725" y="510" text-anchor="middle" class="t">Market Agent</text>
+  <text x="725" y="530" text-anchor="middle" class="s">pricing · segments · share</text>
+  <rect x="880" y="484" width="280" height="62" rx="8" class="box"/>
+  <text x="1020" y="510" text-anchor="middle" class="t">Threat Agent</text>
+  <text x="1020" y="530" text-anchor="middle" class="s">risks · competitors · regulation</text>
+
+  <text x="40" y="574" class="s" style="font-style:italic">each agent runs:</text>
+
+  <rect x="40"  y="586" width="200" height="92" rx="8" class="llm"/>
+  <text x="140" y="614" text-anchor="middle" class="t">① Plan queries</text>
+  <text x="140" y="636" text-anchor="middle" class="s">LLM writes 3 targeted</text>
+  <text x="140" y="653" text-anchor="middle" class="s">search queries</text>
+  <path d="M240,632 L262,632" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="266" y="586" width="210" height="92" rx="8" class="box"/>
+  <text x="371" y="614" text-anchor="middle" class="t">② Hybrid search</text>
+  <text x="371" y="636" text-anchor="middle" class="s">semantic top-8 + BM25 top-8</text>
+  <text x="371" y="653" text-anchor="middle" class="s">for every query</text>
+  <path d="M476,632 L498,632" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="502" y="586" width="200" height="92" rx="8" class="box"/>
+  <text x="602" y="614" text-anchor="middle" class="t">③ Fuse</text>
+  <text x="602" y="636" text-anchor="middle" class="s">Reciprocal Rank Fusion</text>
+  <text x="602" y="653" text-anchor="middle" class="s">(k = 60) → 16 candidates</text>
+  <path d="M702,632 L724,632" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="728" y="586" width="200" height="92" rx="8" class="llm"/>
+  <text x="828" y="614" text-anchor="middle" class="t">④ Re-rank</text>
+  <text x="828" y="636" text-anchor="middle" class="s">LLM-as-judge scores all</text>
+  <text x="828" y="653" text-anchor="middle" class="s">16 in one call → top 6</text>
+  <path d="M928,632 L950,632" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="954" y="586" width="206" height="92" rx="8" class="llm"/>
+  <text x="1057" y="614" text-anchor="middle" class="t">⑤ Write section</text>
+  <text x="1057" y="636" text-anchor="middle" class="s">evidence-only; cite every</text>
+  <text x="1057" y="653" text-anchor="middle" class="s">claim [n] or say "no evidence"</text>
+
+  <!-- stores feed retrieval -->
+  <path d="M1160,292 L1171,292 L1171,560 L371,560 L371,582" class="dash" marker-end="url(#arr)"/>
+  <text x="760" y="575" text-anchor="middle" class="s" style="font-size:11px;fill:#2f4a68">reads Pinecone + BM25 store</text>
+
+  <!-- ============ 3. SYNTHESIZE ============ -->
+  <rect x="20" y="714" width="1160" height="146" rx="10" class="band"/>
+  <text x="40" y="738" class="h">3 · CROSS-CHECK, SYNTHESIZE, MEASURE, PUBLISH</text>
+
+  <rect x="40"  y="754" width="250" height="88" rx="8" class="llm"/>
+  <text x="165" y="784" text-anchor="middle" class="t">Conflict cross-check</text>
+  <text x="165" y="806" text-anchor="middle" class="s">flags contradictions</text>
+  <text x="165" y="823" text-anchor="middle" class="s">between the 4 sections</text>
+  <path d="M290,798 L316,798" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="320" y="754" width="250" height="88" rx="8" class="llm"/>
+  <text x="445" y="784" text-anchor="middle" class="t">Executive summary</text>
+  <text x="445" y="806" text-anchor="middle" class="s">headline, synthesis and</text>
+  <text x="445" y="823" text-anchor="middle" class="s">recommendation</text>
+  <path d="M570,798 L596,798" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="600" y="754" width="250" height="88" rx="8" class="box"/>
+  <text x="725" y="784" text-anchor="middle" class="t">Groundedness metrics</text>
+  <text x="725" y="806" text-anchor="middle" class="s">citation coverage +</text>
+  <text x="725" y="823" text-anchor="middle" class="s">number fidelity, every brief</text>
+  <path d="M850,798 L876,798" class="ln" marker-end="url(#arr)"/>
+
+  <rect x="880" y="754" width="280" height="88" rx="8" class="box"/>
+  <text x="1020" y="784" text-anchor="middle" class="t">Newsprint renderer</text>
+  <text x="1020" y="806" text-anchor="middle" class="s">broadsheet front page in the</text>
+  <text x="1020" y="823" text-anchor="middle" class="s">Streamlit app · HTML export</text>
+
+  <path d="M1057,678 L1057,704 L29,704 L29,798 L36,798" class="ln" marker-end="url(#arr)"/>
+  <text x="600" y="696" text-anchor="middle" class="s" style="font-size:11px">4 cited sections</text>
+
+  <!-- legend / footer -->
+  <rect x="40" y="878" width="18" height="14" rx="3" class="llm"/>
+  <text x="64" y="890" class="s">LLM step · Groq <tspan font-weight="700" fill="#1a1a1a">openai/gpt-oss-120b</tspan></text>
+  <rect x="340" y="878" width="18" height="14" rx="3" class="store"/>
+  <text x="364" y="890" class="s">data store</text>
+  <text x="1160" y="890" text-anchor="end" class="s">Python · Streamlit Community Cloud · $0 stack</text>
+</svg>

@@ -39,6 +39,9 @@ def groundedness(report: dict) -> dict:
         "citation_coverage": round(cited / bullets, 3) if bullets else 0.0,
         "number_fidelity": round(grounded_nums / nums, 3) if nums else 1.0,
         "bullets": bullets,
+        "cited": cited,
+        "numbers": nums,
+        "grounded_numbers": grounded_nums,
     }
 
 

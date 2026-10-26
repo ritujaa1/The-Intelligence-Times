@@ -204,7 +204,7 @@ for n in NUM_RE.findall(re.sub(r"\[\d+\]", "", line)):
 
 This is the sharpest tool in the box and it's about ten lines. Invented revenue figures, made-up market shares, and hallucinated growth rates all fail it, because a fabricated number by definition does not appear in the source passages. Citation markers are stripped first so `[3]` isn't counted as the number 3.
 
-**Be honest about what it is:** a proxy, not ground truth. It cannot catch a *correct* number attached to a *wrong* claim, and a number legitimately derived by arithmetic would be flagged. It is a cheap smoke detector, not a fire inspection. Reported scores on real runs sit at **76–80%** — and the gap from 100% is mostly rephrased and derived figures, which is worth saying out loud rather than tuning away.
+**Be honest about what it is:** a proxy, not ground truth. It cannot catch a *correct* number attached to a *wrong* claim, and a number legitimately derived by arithmetic would be flagged. It is a cheap smoke detector, not a fire inspection. Scores on the current model sit around **58–60%** pooled (see the batch evaluation below) — and the gap from 100% is mostly rephrased and derived figures, which is worth saying out loud rather than tuning away.
 
 **Measured on real runs:**
 
@@ -215,6 +215,19 @@ This is the sharpest tool in the box and it's about ten lines. Invented revenue 
 | Deployed (Streamlit Cloud) | — | — | — | — | 26.4s |
 
 Per-agent latency, real: retrieval 1,900–5,500ms, re-rank 310–620ms.
+
+**Batch evaluation (`python -m src.evaluate`, Oct 2026, Groq `openai/gpt-oss-120b`):**
+8 complete briefs — 3 sample-corpus companies × 2 runs, plus Nvidia and Tesla freshly
+ingested from Google News + GitHub + arXiv. (The planned 11 stopped at Groq's free-tier
+limit of 200k tokens/day; each brief uses ~25k.) Pooled over every bullet and number:
+
+| Corpus | Briefs | Bullets | Numbers | Citation coverage | Number fidelity | Median time |
+|---|---|---|---|---|---|---|
+| Sample (synthetic) | 6 | 133 | 258 | 58% (48–75%) | 58% (39–74%) | 72s |
+| Live (fresh news) | 2 | 49 | 35 | 59% (33–84%) | 71% (69–78%) | 102s |
+| **All** | **8** | **182** | **293** | **58%** | **60%** | **75s** |
+
+The earlier 79% / 80% figures came from two runs on the retired Llama 3.3 70B.
 
 ---
 

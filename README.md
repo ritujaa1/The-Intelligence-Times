@@ -4,6 +4,8 @@
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://the-intelligence-times.streamlit.app)
 
+![Architecture](docs/img/architecture.png)
+
 Four specialist AI agents (Research, Technology, Market, Threat) analyze any company by querying a **Pinecone** vector database with **hybrid retrieval** (semantic + BM25 + Reciprocal Rank Fusion), re-ranking evidence with **Groq LLM-as-judge**, cross-checking each other for conflicts, and producing a fully **source-attributed intelligence brief** with built-in hallucination metrics — typeset as a broadsheet front page in the Economic Times' salmon newsprint.
 
 ![The Intelligence Times front page](docs/img/front-page.png)
