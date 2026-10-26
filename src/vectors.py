@@ -73,11 +73,17 @@ def llm(prompt: str, system: str = "", temperature: float = 0.2,
         _groq = Groq(api_key=GROQ_API_KEY)
     messages = ([{"role": "system", "content": system}] if system else []) + \
                [{"role": "user", "content": prompt}]
+    # Reasoning models (gpt-oss) spend tokens thinking before answering:
+    # keep thinking short and add headroom so answers aren't truncated.
+    extra = {}
+    if "gpt-oss" in GROQ_MODEL:
+        extra = {"reasoning_effort": "low"}
+        max_tokens += 2000
     for attempt in range(retries):
         try:
             resp = _groq.chat.completions.create(
                 model=GROQ_MODEL, messages=messages,
-                temperature=temperature, max_tokens=max_tokens)
+                temperature=temperature, max_tokens=max_tokens, **extra)
             return resp.choices[0].message.content.strip()
         except Exception as e:
             if attempt == retries - 1:

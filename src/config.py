@@ -39,7 +39,7 @@ GITHUB_TOKEN = _secret("GITHUB_TOKEN")        # optional
 # --- Models ---
 # Groq free tier. If this model is deprecated, list current ones with:
 #   python -c "from groq import Groq; import src.config as c; print([m.id for m in Groq(api_key=c.GROQ_API_KEY).models.list().data])"
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 
 # Pinecone hosted embedding model (free tier includes inference API).
 EMBED_MODEL = os.getenv("EMBED_MODEL", "multilingual-e5-large")
