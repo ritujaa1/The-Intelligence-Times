@@ -1,8 +1,8 @@
 # 🗞️ The Intelligence Times — Agentic RAG Competitive Intelligence
 
-**Live app: [theintelligencetimes.streamlit.app](https://theintelligencetimes.streamlit.app)** — try `?company=OpenAI` for a shareable, auto-printed edition.
+**Live app: [the-intelligence-times.streamlit.app](https://the-intelligence-times.streamlit.app)** — try `?company=OpenAI` for a shareable, auto-printed edition.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://theintelligencetimes.streamlit.app)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://the-intelligence-times.streamlit.app)
 
 Four specialist AI agents (Research, Technology, Market, Threat) analyze any company by querying a **Pinecone** vector database with **hybrid retrieval** (semantic + BM25 + Reciprocal Rank Fusion), re-ranking evidence with **Groq LLM-as-judge**, cross-checking each other for conflicts, and producing a fully **source-attributed intelligence brief** with built-in hallucination metrics — typeset as a broadsheet front page in the Economic Times' salmon newsprint.
 
@@ -74,7 +74,7 @@ For **live data** instead of the sample corpus, add free keys for `NEWSAPI_KEY` 
 
 ```bash
 # a shareable edition (auto-prints on load)
-https://theintelligencetimes.streamlit.app/?company=OpenAI
+https://the-intelligence-times.streamlit.app/?company=OpenAI
 
 # export a saved brief as a standalone page
 python -m src.export_html --company "OpenAI"
