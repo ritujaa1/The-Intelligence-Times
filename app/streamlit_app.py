@@ -67,7 +67,7 @@ with col1:
 with col2:
     run = st.button("Print the brief", use_container_width=True)
 
-fresh = st.checkbox("Wire in fresh documents first (NewsAPI · GitHub · arXiv) — "
+fresh = st.checkbox("Wire in fresh documents first (Google News · GitHub · arXiv) — "
                     "required for companies not yet in the archives")
 archives = known_companies()
 if archives:
@@ -98,7 +98,7 @@ if run and company.strip():
     status = st.status("The newsroom is at work...", expanded=True)
     try:
         if fresh:
-            status.write("→ Wire desk: fetching fresh documents (NewsAPI · GitHub · arXiv)...")
+            status.write("→ Wire desk: fetching fresh documents (Google News · GitHub · arXiv)...")
             ingest(company)
         report = analyze_company(company, progress=status.write)
     except Exception as e:

@@ -55,13 +55,13 @@ bash run.sh                 # choose 3, type: OpenAI
 bash run.sh                 # choose 4
 ```
 
-For **live data** instead of the sample corpus, add free keys for `NEWSAPI_KEY` (newsapi.org) and `GITHUB_TOKEN` (github.com → Settings → Developer settings), then use option 2. arXiv needs no key.
+For **live data** instead of the sample corpus, use option 2: it pulls the last 7 days of Google News headlines plus GitHub and arXiv, none of which need a key. Optionally add `NEWSAPI_KEY` (newsapi.org) for fuller article text and `GITHUB_TOKEN` (github.com → Settings → Developer settings) for higher GitHub rate limits. A live ingest replaces the company's archive, so synthetic sample data never mixes with real news.
 
 ## What each module does
 
 | File | Role |
 |---|---|
-| `src/ingest.py` | Pulls docs (NewsAPI/GitHub/arXiv/sample), chunks, embeds via Pinecone hosted model, upserts into per-company namespaces; writes local chunk store for BM25 |
+| `src/ingest.py` | Pulls docs (Google News/NewsAPI/GitHub/arXiv, or the sample corpus offline), chunks, embeds via Pinecone hosted model, upserts into per-company namespaces; writes local chunk store for BM25 |
 | `src/vectors.py` | Pinecone index + hosted embeddings, Groq LLM wrapper with retry and JSON mode |
 | `src/retrieval.py` | Hybrid search: semantic + BM25 → Reciprocal Rank Fusion → LLM-as-judge re-rank |
 | `src/agents.py` | 4 specialist agents (query generation → retrieval → grounded cited writing), conflict cross-check, synthesis |
@@ -102,11 +102,11 @@ Company names become Pinecone namespaces, so spelling is identity: `OpenAI` and 
    ```toml
    GROQ_API_KEY = "gsk_..."
    PINECONE_API_KEY = "pcsk_..."
-   NEWSAPI_KEY = "..."      # optional — enables live news in the app
+   NEWSAPI_KEY = "..."      # optional — adds fuller article text to live news
    GITHUB_TOKEN = "..."     # optional — raises GitHub rate limits
    ```
 
-4. Deploy. On the live app, readers can analyze any company: tick *“Wire in fresh documents first”* and the app ingests NewsAPI + GitHub + arXiv on the fly (no CLI needed).
+4. Deploy. On the live app, readers can analyze any company: tick *“Wire in fresh documents first”* and the app ingests fresh Google News headlines + GitHub + arXiv on the fly (no CLI needed).
 
 ## Disclaimer
 

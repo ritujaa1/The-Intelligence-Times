@@ -3,10 +3,14 @@ Data ingestion: pull documents about a company from free sources, chunk them,
 embed with Pinecone's hosted model, and upsert into the vector index.
 
 Sources (all free):
+  - Google News RSS (no key; headlines from the last 7 days, minutes fresh)
   - NewsAPI (needs free key; skipped gracefully if absent)
   - GitHub API (org repos; token optional but raises rate limits)
   - arXiv API (no key needed)
   - data/sample_corpus.json fallback (works fully offline, for instant demos)
+
+A live ingest replaces the company's namespace, so stale articles and the
+synthetic sample corpus never mix with fresh news.
 
 Also writes every chunk to data/chunk_store.json so BM25 keyword search can
 run locally without extra infrastructure.
@@ -20,6 +24,8 @@ import argparse
 import json
 import re
 import time
+import xml.etree.ElementTree as ET
+from email.utils import parsedate_to_datetime
 
 import requests
 
@@ -50,6 +56,36 @@ def slugify(name: str) -> str:
 # ---------------------------------------------------------------------------
 # Free data sources
 # ---------------------------------------------------------------------------
+
+def fetch_google_news(company: str, days: int = 7, limit: int = 25) -> list[dict]:
+    """Latest headlines from Google News RSS — no key, minutes-fresh.
+
+    The feed carries headline, publisher and timestamp only (no article body),
+    so each headline becomes one short, dated, citable document.
+    """
+    r = requests.get("https://news.google.com/rss/search",
+                     params={"q": f'"{company}" when:{days}d', "hl": "en-US",
+                             "gl": "US", "ceid": "US:en"},
+                     headers={"User-Agent": "Mozilla/5.0"}, timeout=20)
+    r.raise_for_status()
+    items = []
+    for item in ET.fromstring(r.content).iter("item"):
+        title = (item.findtext("title") or "").strip()
+        publisher = (item.findtext("source") or "").strip()
+        if publisher and title.endswith(f" - {publisher}"):
+            title = title[: -len(publisher) - 3].strip()
+        try:
+            published = parsedate_to_datetime(item.findtext("pubDate") or "")
+        except (TypeError, ValueError):
+            continue
+        if title:
+            items.append((published, title, publisher, item.findtext("link") or "news.google.com"))
+    items.sort(key=lambda x: x[0], reverse=True)
+    return [{"category": "news", "title": title,
+             "source": link,
+             "text": f"{published:%d %b %Y}: {title} (reported by {publisher or 'unknown'})."}
+            for published, title, publisher, link in items[:limit]]
+
 
 def fetch_news(company: str) -> list[dict]:
     if not NEWSAPI_KEY:
@@ -127,21 +163,23 @@ def ingest(company: str, offline: bool = False) -> None:
     require("PINECONE_API_KEY")
     print(f"Ingesting data for: {company}")
 
-    docs = load_sample(company)
-    if docs:
-        print(f"  Sample corpus: {len(docs)} docs")
+    docs = []
     if not offline:
-        for fn in (fetch_news, fetch_github, fetch_arxiv):
+        for fn in (fetch_google_news, fetch_news, fetch_github, fetch_arxiv):
             try:
                 fetched = fn(company)
                 print(f"  {fn.__name__}: {len(fetched)} docs")
                 docs += fetched
             except Exception as e:
                 print(f"  {fn.__name__} failed ({e}) — continuing")
+    if not docs:
+        docs = load_sample(company)
+        if docs:
+            print(f"  Sample corpus: {len(docs)} docs")
 
     if not docs:
-        raise SystemExit("No documents found. Add the company to data/sample_corpus.json "
-                         "or set NEWSAPI_KEY / check the GitHub org name.")
+        raise SystemExit("No documents found — no recent news, GitHub org or arXiv papers "
+                         "for this name. Check the spelling or try the full company name.")
 
     # Chunk
     namespace = slugify(company)
@@ -155,6 +193,10 @@ def ingest(company: str, offline: bool = False) -> None:
 
     # Embed + upsert in batches (Pinecone hosted embeddings — nothing local)
     index = get_index()
+    try:
+        index.delete(delete_all=True, namespace=namespace)   # replace, don't append
+    except Exception:
+        pass  # namespace doesn't exist yet
     for i in range(0, len(chunks), 50):
         batch = chunks[i:i + 50]
         vectors = embed_passages([c["text"] for c in batch])
