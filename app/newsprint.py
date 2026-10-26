@@ -215,7 +215,7 @@ def lead_story(report: dict) -> str:
 <div class="headline">The {esc(company)} File</div>
 <div class="deck">{deck}</div>
 <div class="byline">BY OUR RESEARCH, TECHNOLOGY, MARKET &amp; THREAT CORRESPONDENTS \u00b7
-GROQ LLAMA-3.3-70B \u00b7 PINECONE HYBRID RETRIEVAL (SEMANTIC + BM25 + RRF)</div>
+GROQ GPT-OSS-120B \u00b7 PINECONE HYBRID RETRIEVAL (SEMANTIC + BM25 + RRF)</div>
 <div class="lead-story">{paras}</div>
 {editorial}
 """

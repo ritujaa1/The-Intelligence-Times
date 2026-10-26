@@ -254,7 +254,7 @@ CHUNK_OVERLAP = 40       # prevents facts being cut at boundaries
 TOP_K_SEMANTIC = 8       # per query, per retriever
 TOP_K_BM25 = 8
 TOP_K_FINAL = 6          # evidence passages per agent after re-ranking
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-120b"
 EMBED_MODEL = "multilingual-e5-large"   # 1024-dim, Pinecone-hosted
 ```
 
