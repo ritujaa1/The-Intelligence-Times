@@ -11,6 +11,7 @@ Then the synthesizer cross-checks the four sections for conflicts (one extra
 LLM pass = lightweight "agent debate") and writes the executive summary.
 """
 
+import re
 import time
 
 from src.ingest import slugify
@@ -35,6 +36,15 @@ AGENTS = {
         "focus": "weaknesses, risks, emerging competitors, regulatory exposure",
     },
 }
+
+# gpt-oss was trained to cite as 【1】 or 【1†L3】; normalize to the [1] the
+# renderer and groundedness metrics expect.
+NATIVE_CITE_RE = re.compile(r"【(\d+)[^】]*】")
+
+
+def normalize_citations(text: str) -> str:
+    return NATIVE_CITE_RE.sub(r"[\1]", text)
+
 
 GROUNDING_RULES = (
     "Use ONLY the numbered evidence passages provided. Cite every factual claim "
@@ -73,7 +83,7 @@ def run_agent(name: str, spec: dict, company: str) -> dict:
     return {
         "agent": name,
         "queries": queries,
-        "section": section,
+        "section": normalize_citations(section),
         "sources": [{"n": i + 1, "title": e["title"], "source": e["source"],
                      "rerank_score": e.get("rerank_score")}
                     for i, e in enumerate(evidence)],

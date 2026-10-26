@@ -8,9 +8,11 @@ Two corpora are covered:
   - live:   companies freshly ingested from Google News + GitHub + arXiv
 
 Scoring (per brief, see report.groundedness):
-  - citation coverage = bullets carrying a [n] citation / all bullets
+  - citation coverage = bullets carrying a [n] citation / factual bullets
+                        ("no evidence found" bullets are counted separately)
   - number fidelity   = numbers that appear in that agent's retrieved
-                        evidence / all numbers written (hallucination proxy)
+                        evidence, unit-normalized ("$7 billion" = "$7000M"),
+                        / all numbers written (hallucination proxy)
 Aggregates are pooled over every bullet / number, so long briefs weigh more.
 
 Usage:
@@ -39,6 +41,11 @@ def run_one(company: str, corpus: str) -> dict | None:
         print(f"  {company:<12} {corpus:<6} FAILED: {str(e)[:120]}", flush=True)
         return None
     g = groundedness(report)
+    # keep the full brief so the metric can be re-scored later without new LLM calls
+    out_dir = RESULTS_DIR / "eval_reports"
+    out_dir.mkdir(exist_ok=True)
+    (out_dir / f"{corpus}_{company.lower().replace(' ', '_')}_{time.strftime('%H%M%S')}.json"
+     ).write_text(json.dumps(report, indent=2))
     row = {"company": company, "corpus": corpus,
            "seconds": report["total_seconds"], **g}
     print(f"  {company:<12} {corpus:<6} cite {g['citation_coverage']:.0%}  "

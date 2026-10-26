@@ -9,37 +9,67 @@ import argparse
 import json
 import re
 
-from src.agents import analyze_company
+from src.agents import analyze_company, normalize_citations
 from src.config import RESULTS_DIR, require
 
-NUM_RE = re.compile(r"\d+(?:\.\d+)?")
+# A number with optional thousands separators and an optional scale word,
+# so "$7 billion", "$7000M" and "7,000 million" all read as 7e9.
+NUM_RE = re.compile(
+    r"(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(?![\d.,]\d)"
+    r"(?:\s*(k|K|thousand|M|mn|million|B|bn|billion|T|trillion)(?![A-Za-z]))?")
+SCALE = {"k": 1e3, "K": 1e3, "thousand": 1e3, "M": 1e6, "mn": 1e6, "million": 1e6,
+         "B": 1e9, "bn": 1e9, "billion": 1e9, "T": 1e12, "trillion": 1e12}
+CITE_RE = re.compile(r"\[\d+\]")
+ABSTAIN_RE = re.compile(r"no (?:evidence|information|data) (?:found|available)", re.I)
+
+
+def numbers(text: str) -> list[tuple[float, float, int]]:
+    """(mantissa, scale, decimals) for every number in text."""
+    out = []
+    for raw, unit in NUM_RE.findall(text):
+        digits = raw.replace(",", "")
+        decimals = len(digits.split(".")[1]) if "." in digits else 0
+        out.append((float(digits), SCALE.get(unit, 1.0), decimals))
+    return out
+
+
+def is_grounded(num: tuple[float, float, int], evidence_values: set[float]) -> bool:
+    """A number is grounded if some evidence value, expressed in the same unit
+    and rounded to the same precision, equals it ("2.9k" matches 2,934)."""
+    mantissa, scale, decimals = num
+    return any(round(v / scale, decimals) == mantissa for v in evidence_values)
 
 
 def groundedness(report: dict) -> dict:
     """Two cheap hallucination checks on the final output:
-    - citation coverage: % of section bullets that carry a [n] citation
-    - number fidelity: % of numbers in sections that appear in retrieved evidence
+    - citation coverage: % of factual bullets that carry a [n] citation
+      (bullets that honestly say "no evidence found" are counted separately)
+    - number fidelity: % of numbers in sections that appear in retrieved
+      evidence, after normalizing units and thousands separators
     """
-    bullets, cited, nums, grounded_nums = 0, 0, 0, 0
+    bullets, cited, abstained, nums, grounded_nums = 0, 0, 0, 0, 0
     for s in report["sections"]:
-        evidence_text = " ".join(s["evidence_texts"])
-        evidence_nums = set(NUM_RE.findall(evidence_text))
-        for line in s["section"].splitlines():
+        evidence_values = {m * sc for m, sc, _ in numbers(" ".join(s["evidence_texts"]))}
+        for line in normalize_citations(s["section"]).splitlines():
             line = line.strip()
             if not line or len(line) < 15:
                 continue
+            if ABSTAIN_RE.search(line) and not CITE_RE.search(line):
+                abstained += 1
+                continue
             bullets += 1
-            if re.search(r"\[\d+\]", line):
+            if CITE_RE.search(line):
                 cited += 1
-            for n in NUM_RE.findall(re.sub(r"\[\d+\]", "", line)):
+            for n in numbers(CITE_RE.sub("", line)):
                 nums += 1
-                if n in evidence_nums:
+                if is_grounded(n, evidence_values):
                     grounded_nums += 1
     return {
         "citation_coverage": round(cited / bullets, 3) if bullets else 0.0,
         "number_fidelity": round(grounded_nums / nums, 3) if nums else 1.0,
         "bullets": bullets,
         "cited": cited,
+        "abstentions": abstained,
         "numbers": nums,
         "grounded_numbers": grounded_nums,
     }

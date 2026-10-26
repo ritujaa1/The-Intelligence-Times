@@ -229,6 +229,26 @@ limit of 200k tokens/day; each brief uses ~25k.) Pooled over every bullet and nu
 
 The earlier 79% / 80% figures came from two runs on the retired Llama 3.3 70B.
 
+**Why those scores were low — mostly the metric, partly the model.** Dissecting the
+failing bullets and numbers showed three causes:
+
+1. *Model:* gpt-oss sometimes cites in its native `【1】` format instead of `[1]`.
+   Those bullets counted as uncited, and the `1` inside counted as an ungrounded
+   number. Fixed by normalizing to `[1]` in `agents.py` (also fixes rendering).
+2. *Metric:* honest "No evidence found" bullets — the behavior the prompt asks
+   for — counted as uncited. They're now excluded and reported as `abstentions`.
+3. *Metric:* number matching was string-exact, so "$7 billion" vs "$7000M",
+   "8,000" vs "8000" (the comma split it into `8` and `000`) and "2.9k" vs 2,934
+   were flagged as hallucinations. Numbers are now unit-normalized and compared
+   at the precision they were written.
+
+Re-scoring the two saved briefs: Anthropic 100% / 88% → 100% / 100%, Nvidia
+62% / 71% → 100% / 100% (citation / number fidelity). The metric stayed strict:
+injecting 393 fabricated numbers into those briefs, it flagged 98–99% of them
+(the misses collided with another real number in the evidence). The table above
+uses the old metric; re-run `python -m src.evaluate` for current numbers (it now
+saves every brief to `results/eval_reports/` so it can be re-scored for free).
+
 ---
 
 ## Step 6 — Typesetting
